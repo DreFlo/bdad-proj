@@ -71,8 +71,8 @@ create table Manufacturer (
 drop table if exists VaccineManufacturer;
 
 create table VaccineManufacturer (
-	vacID number references Vaccine(vacID),
-	manID number references Manufacturer(manID),
+	vacID number references Vaccine(vacID) not null,
+	manID number references Manufacturer(manID) not null,
 	primary key(vacID, manID)
 );
 
@@ -117,6 +117,7 @@ create table COVIDCase (
 	outcome number,
 	parishID number references Parish(locID) not null,
 	strainID number references Strain(strainID) not null,
+	nursingHomeID number references NursingHome(nursingHomeID),
 	check(detectionDate <= endDate),
 	check(outcome == 0 or outcome == 1 or outcome == 2)
 );
@@ -124,8 +125,8 @@ create table COVIDCase (
 drop table if exists EthnicityCOVIDCase;
 
 create table EthnicityCOVIDCase (
-	caseID number references COVIDCase(caseID),
-	etniID number references Ethnicity(etniID)
+	caseID number references COVIDCase(caseID) not null,
+	etniID number references Ethnicity(etniID) not null
 );
 
 drop table if exists Hospital;
@@ -142,8 +143,8 @@ create table Hospitalization (
 	hospStayID number primary key not null,
 	startDate number,
 	endDate number,
-	hospitalID number references Hospital(hospitalID),
-	caseID number references COVIDCase(caseID),
+	hospitalID number references Hospital(hospitalID) not null,
+	caseID number references COVIDCase(caseID) not null,
 	check(startDate <= endDate)
 );
 
@@ -153,7 +154,7 @@ create table ICUStay (
 	ICUStayID number primary key not null,
 	startDate number,
 	endDate number,
-	hStayID number references Hospitalization(hospStayID) not null,
+	hospStayID number references Hospitalization(hospStayID) not null,
 	check(startDate <= endDate) 
 );
 
@@ -166,3 +167,71 @@ create table Ventilation (
 	ICUStayID number references ICUStay(ICUStayID) not null,
 	check(startDate >= endDate)
 );
+
+drop table if exists EmployedIn;
+
+create table EmployedIn (
+	caseID number references COVIDCase(caseID) not null,
+	sectorID number references EmploymentSector(sectorID) not null,
+	primary key(caseID, sectorID)
+);
+
+drop trigger if exists insert_employed_in;
+
+create trigger insert_employed_in
+before insert on EmployedIn
+begin
+	select 
+		case 
+		when nursingHomeID is not null
+			then raise(abort, 'Cannot be employed and in nursing home')
+		end
+	from COVIDCase
+       	where caseID == new.caseID;
+end;
+
+drop trigger if exists update_COVIDCase;
+
+create trigger update_COVIDCase
+before update on COVIDCase
+begin
+	select
+		case
+		when new.nursingHomeID not null
+			then raise(abort, 'Cannot be employed and in nursing home')
+		end
+	from EmployedIn
+	where caseID == new.caseID;
+end;
+
+drop trigger if exists insert_ICUStay;
+
+create trigger insert_ICUStay
+before insert on ICUStay
+begin
+	select
+		case
+		when new.startDate < startDate
+			then raise(abort, 'ICUStay cannot start before Hospitalization')
+		when new.endDate > endDate
+			then raise(abort, 'ICUStay cannot end after Hospitalization')
+		end
+	from Hospitalization
+	where hospStayID == new.hospStayID;
+end;
+
+drop trigger if exists insert_Ventilation;
+
+create trigger insert_Ventilation
+before insert on Ventilation
+begin
+	select
+		case                                                                                                      
+		when new.startDate < startDate
+			then raise(abort, 'Ventilation cannot start before ICUStay')
+		when new.endDate > endDate
+			then raise(abort, 'Ventilation cannot end after ICUStay')
+		end 
+	from ICUStay
+	where ICUStayID == new.ICUStayID;	
+end;
