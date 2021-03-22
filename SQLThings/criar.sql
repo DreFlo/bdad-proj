@@ -1,3 +1,4 @@
+/* using number for dates */
 pragma foreign_keys = ON;
 
 drop table if exists Country;
@@ -18,7 +19,7 @@ create table District (
 	caseNumber number,
 	noVaccinated number,
 	population number,
-	countryID number references Country(locID) not null
+	countryID number references Country(locID) not null on delete cascade
 );
 
 drop table if exists County;
@@ -29,7 +30,7 @@ create table County (
 	caseNumber number,
 	noVaccinated number,
 	population number,
-	districtID number references District(locID) not null
+	districtID number references District(locID) not null on delete cascade
 );
 
 drop table if exists Parish;
@@ -40,7 +41,7 @@ create table Parish (
 	caseNumber number,
 	noVaccinated number,
 	population number,
-	countyID number references County(locID) not null
+	countyID number references County(locID) not null on delete cascade
 );
 
 drop table if exists Vaccine;
@@ -55,8 +56,8 @@ create table Vaccine (
 drop table if exists VaccinationAmount;
 
 create table VaccinationAmount (
-	parishID number references Parish(locID),
-	vacID number references Vaccine(vacID),
+	parishID number references Parish(locID) on delete cascade,
+	vacID number references Vaccine(vacID) on delete cascade,
 	vaccination number,
 	primary key(parishID, vacID)
 );
@@ -71,8 +72,8 @@ create table Manufacturer (
 drop table if exists VaccineManufacturer;
 
 create table VaccineManufacturer (
-	vacID number references Vaccine(vacID) not null,
-	manID number references Manufacturer(manID) not null,
+	vacID number references Vaccine(vacID) not null on delete cascade,
+	manID number references Manufacturer(manID) not null on delete cascade,
 	primary key(vacID, manID)
 );
 
@@ -81,7 +82,7 @@ drop table if exists Strain;
 create table Strain (
 	strainID number primary key not null,
 	designation text not null,
-	countryID number references Country(locID) not null
+	countryID number references Country(locID) not null on delete cascade
 );
 
 drop table if exists NursingHome;
@@ -112,12 +113,12 @@ drop table if exists COVIDCase;
 create table COVIDCase (
 	caseID number primary key not null,
 	detectionDate number,
-       	endDate number,
+    endDate number,
 	birthYear number,
 	outcome number,
-	parishID number references Parish(locID) not null,
-	strainID number references Strain(strainID) not null,
-	nursingHomeID number references NursingHome(nursingHomeID),
+	parishID number references Parish(locID) not null on delete cascade,
+	strainID number references Strain(strainID) not null on delete cascade,
+	nursingHomeID number references NursingHome(nursingHomeID) on delete cascade,
 	check(detectionDate <= endDate),
 	check(outcome == 0 or outcome == 1 or outcome == 2)
 );
@@ -125,8 +126,8 @@ create table COVIDCase (
 drop table if exists EthnicityCOVIDCase;
 
 create table EthnicityCOVIDCase (
-	caseID number references COVIDCase(caseID) not null,
-	etniID number references Ethnicity(etniID) not null
+	caseID number references COVIDCase(caseID) not null on delete cascade,
+	etniID number references Ethnicity(etniID) not null on delete cascade
 );
 
 drop table if exists Hospital;
@@ -134,7 +135,7 @@ drop table if exists Hospital;
 create table Hospital (
 	hospitalID number primary key not null,
 	name text,
-	parishID references Parish(locID) not null
+	parishID references Parish(locID) not null on delete cascade
 );
 
 drop table if exists Hospitalization;
@@ -143,8 +144,8 @@ create table Hospitalization (
 	hospStayID number primary key not null,
 	startDate number,
 	endDate number,
-	hospitalID number references Hospital(hospitalID) not null,
-	caseID number references COVIDCase(caseID) not null,
+	hospitalID number references Hospital(hospitalID) not null on delete cascade,
+	caseID number references COVIDCase(caseID) not null on delete cascade,
 	check(startDate <= endDate)
 );
 
@@ -154,7 +155,7 @@ create table ICUStay (
 	ICUStayID number primary key not null,
 	startDate number,
 	endDate number,
-	hospStayID number references Hospitalization(hospStayID) not null,
+	hospStayID number references Hospitalization(hospStayID) not null on delete cascade,
 	check(startDate <= endDate) 
 );
 
@@ -164,20 +165,21 @@ create table Ventilation (
 	ventID number primary key not null,
 	startDate number,
 	endDate number,
-	ICUStayID number references ICUStay(ICUStayID) not null,
+	ICUStayID number references ICUStay(ICUStayID) not null on delete cascade,
 	check(startDate >= endDate)
 );
 
 drop table if exists EmployedIn;
 
 create table EmployedIn (
-	caseID number references COVIDCase(caseID) not null,
-	sectorID number references EmploymentSector(sectorID) not null,
+	caseID number references COVIDCase(caseID) not null on delete cascade,
+	sectorID number references EmploymentSector(sectorID) not null on delete cascade,
 	primary key(caseID, sectorID)
 );
 
 drop trigger if exists insert_employed_in;
 
+/* do not allow a COVIDCase already registered in a NursingHome to be added to EmployedIn */
 create trigger insert_employed_in
 before insert on EmployedIn
 begin
@@ -187,11 +189,12 @@ begin
 			then raise(abort, 'Cannot be employed and in nursing home')
 		end
 	from COVIDCase
-       	where caseID == new.caseID;
+    where caseID == new.caseID;
 end;
 
 drop trigger if exists update_COVIDCase;
 
+/* do not allow a NursingHome to be added to a COVIDCase with an already registered EmployementSector */
 create trigger update_COVIDCase
 before update on COVIDCase
 begin
@@ -206,6 +209,7 @@ end;
 
 drop trigger if exists insert_ICUStay;
 
+/* do not allow an ICUStay to start before or end after its corresponding Hospitalization */
 create trigger insert_ICUStay
 before insert on ICUStay
 begin
@@ -222,6 +226,7 @@ end;
 
 drop trigger if exists insert_Ventilation;
 
+/* do not allow a Ventilation to start before or end after its corresponding ICUStay */
 create trigger insert_Ventilation
 before insert on Ventilation
 begin
