@@ -83,7 +83,7 @@ drop table if exists Strain;
 create table Strain (
 	strainID integer constraint Strain_PK primary key,
 	designation text constraint Strain_name_not_null not null,
-	countryID integer constraint Strain_FK references Country(locID) on delete restrict on update cascade
+	countryID integer constraint Strain_FK references Country(locID) on delete restrict on update cascade not null
 );
 
 drop table if exists NursingHome;
@@ -99,7 +99,7 @@ create table EmploymentSector (
 	sectorID integer constraint EmploymentSector_PK primary key,
 	name text,
 	contactFrequency integer,
-	constraint contactFrequencyRange check((contactFrequency >= 0 and contactFrequency <= 5) or contactFrequency == null)
+	constraint contactFrequencyRange check((contactFrequency >= 0 and contactFrequency <= 5 and contactFrequency is not null and sectorID != 0) or (sectorID == 0 and contactFrequency is null))
 );
 
 drop table if exists Ethnicity;
@@ -113,8 +113,8 @@ drop table if exists COVIDCase;
 
 create table COVIDCase (
 	caseID integer constraint COVIDCase_PK primary key,
-	detectionDate integer,
-    endDate integer,
+	detectionDate date,
+    endDate date,
 	birthYear integer,
 	outcome integer,
 	parishID integer constraint COVIDCase_Parish_FK references Parish(locID) on delete restrict on update cascade not null,
@@ -137,15 +137,15 @@ drop table if exists Hospital;
 create table Hospital (
 	hospitalID integer constraint Hospital_PK primary key,
 	name text,
-	parishID constraint Hospital_FK references Parish(locID) on delete cascade on update cascade not null
+	parishID constraint Hospital_FK references Parish(locID) on delete restrict on update cascade not null
 );
 
 drop table if exists Hospitalization;
 
 create table Hospitalization (
 	hospStayID integer constraint Hospitalization_PK primary key,
-	startDate integer,
-	endDate integer,
+	startDate date,
+	endDate date,
 	hospitalID integer constraint Hospitalization_Hospital_FK references Hospital(hospitalID) on delete restrict on update cascade not null,
 	caseID integer constraint Hospitalization_COVIDCase_FK references COVIDCase(caseID) on delete cascade on update cascade not null,
 	constraint date_range check(startDate <= endDate)
