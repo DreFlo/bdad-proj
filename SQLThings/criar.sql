@@ -105,7 +105,7 @@ create table EmploymentSector (
 drop table if exists Ethnicity;
 
 create table Ethnicity (
-	etniID integer constraint Ethnicity_PK primary key,
+	ethniID integer constraint Ethnicity_PK primary key,
 	name text constraint Ethnicity_name_not_null not null
 );
 
@@ -128,8 +128,8 @@ drop table if exists EthnicityCOVIDCase;
 
 create table EthnicityCOVIDCase (
 	caseID integer constraint EthnicityCOVIDCase_COVIDCase_FK references COVIDCase(caseID) on delete cascade on update cascade not null,
-	etniID integer constraint EthnicityCOVIDCase_Ethnicity_FK references Ethnicity(etniID) on delete restrict on update cascade not null,
-	constraint EthnicityCOVIDCase_PK primary key(caseID, etniID)
+	ethniID integer constraint EthnicityCOVIDCase_Ethnicity_FK references Ethnicity(ethniID) on delete restrict on update cascade not null,
+	constraint EthnicityCOVIDCase_PK primary key(caseID, ethniID)
 );
 
 drop table if exists Hospital;
