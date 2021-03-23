@@ -1,5 +1,4 @@
 /* derived atrributes not being calculated */
-/* all FK delete and update actions set to cascade */
 
 pragma foreign_keys = ON;
 

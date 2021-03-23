@@ -1,11 +1,17 @@
 /* Countries */
-insert into Country values(0, 'MiddleEarth', 0, 0, 0);
-insert into Country values(1, 'Westeros', 0, 0, 0);
+insert into Country values
+    (0, 'Portugal', 0, 0, 0),
+    (1, 'Reino Unido', 0, 0, 0),
+    (2, 'África do Sul', 0, 0, 0),
+    (3, 'Brasil', 0, 0, 0)
+;
 
 /* District */
-insert into District values(0, 'The Shire', 0, 0, 0, 0);
-insert into District values(1, 'Númenor', 0, 0, 0, 0);
-insert into District values(2, 'Rohan', 0, 0, 0, 0);
+insert into District values
+    (0, 'The Shire', 0, 0, 0, 0),
+    (1, 'Númenor', 0, 0, 0, 0),
+    (2, 'Rohan', 0, 0, 0, 0)
+;
 
 /* Counties */
 insert into County values(0, 'Bag End', 0, 0, 0, 0);
