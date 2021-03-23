@@ -155,8 +155,8 @@ drop table if exists ICUStay;
 
 create table ICUStay (
 	ICUStayID integer constraint ICUStay_PK primary key,
-	startDate integer,
-	endDate integer,
+	startDate date,
+	endDate date,
 	hospStayID integer constraint ICUStay_FK references Hospitalization(hospStayID) on delete cascade on update cascade not null,
 	constraint date_range check(startDate <= endDate) 
 );
@@ -165,8 +165,8 @@ drop table if exists Ventilation;
 
 create table Ventilation (
 	ventID integer constraint Ventilation_PK primary key,
-	startDate integer,
-	endDate integer,
+	startDate date,
+	endDate date,
 	ICUStayID integer constraint Ventilation_FK references ICUStay(ICUStayID) on delete cascade on update cascade not null,
 	constraint date_range check(startDate >= endDate)
 );
