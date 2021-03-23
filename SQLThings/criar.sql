@@ -6,7 +6,7 @@ pragma foreign_keys = ON;
 drop table if exists Country;
 
 create table Country (
-	locID integer constraint Country_PK primary key not null,
+	locID integer constraint Country_PK primary key,
 	name text constraint Country_name_not_null not null,
 	caseNumber integer,
 	noVaccinated integer,
@@ -16,7 +16,7 @@ create table Country (
 drop table if exists District;
 
 create table District (
-	locID integer constraint District_PK primary key not null,
+	locID integer constraint District_PK primary key,
 	name text constraint District_name_not_null not null,
 	caseNumber integer,
 	noVaccinated integer,
@@ -27,7 +27,7 @@ create table District (
 drop table if exists County;
 
 create table County (
-	locID integer constraint Country_PK primary key not null,
+	locID integer constraint Country_PK primary key,
 	name text constraint County_name_not_null not null,
 	caseNumber integer,
 	noVaccinated integer,
@@ -38,7 +38,7 @@ create table County (
 drop table if exists Parish;
 
 create table Parish (
-	locID integer constraint Parish_PK primary key not null,
+	locID integer constraint Parish_PK primary key,
 	name text constraint Parish_name_not_null not null,
 	caseNumber integer,
 	noVaccinated integer,
@@ -49,7 +49,7 @@ create table Parish (
 drop table if exists Vaccine;
 
 create table Vaccine (
-	vacID integer constraint Vaccine_PK primary key not null,
+	vacID integer constraint Vaccine_PK primary key,
 	name integer constraint Vaccine_name_not_null not null,
 	doseNumber integer constraint Vaccine_doses_greater_than_one check(doseNumber >= 1) not null
 );
@@ -59,14 +59,14 @@ drop table if exists VaccinationAmount;
 create table VaccinationAmount (
 	parishID integer constraint VaccinationAmount_Parish_FK references Parish(locID) on delete restrict on update cascade not null,
 	vacID integer constraint VaccinationAmount_Vaccine_FK references Vaccine(vacID) on delete restrict on update cascade not null,
-	vaccination integer constraint VaccinationAmount_range check(vaccination >= 0),
+	vaccinationNumber integer constraint vaccinationNumber_range check(vaccinationNumber >= 0),
 	constraint VaccinationAmount_PK primary key(parishID, vacID)
 );
 
 drop table if exists Manufacturer;
 
 create table Manufacturer (
-	manID integer constraint Manufacturer_PK primary key not null,
+	manID integer constraint Manufacturer_PK primary key,
 	name text constraint Manufacturer_name_not_null not null
 );
 
@@ -81,22 +81,22 @@ create table VaccineManufacturer (
 drop table if exists Strain;
 
 create table Strain (
-	strainID integer constraint Strain_PK primary key not null,
+	strainID integer constraint Strain_PK primary key,
 	designation text constraint Strain_name_not_null not null,
-	countryID integer constraint Strain_FK references Country(locID) on delete restrict on update cascade not null
+	countryID integer constraint Strain_FK references Country(locID) on delete restrict on update cascade
 );
 
 drop table if exists NursingHome;
 
 create table NursingHome (
-	nursingHomeID integer constraint NursingHome_PK primary key not null,
+	nursingHomeID integer constraint NursingHome_PK primary key,
 	name text
 );
 
 drop table if exists EmploymentSector;
 
 create table EmploymentSector (
-	sectorID integer constraint EmploymentSector_PK primary key not null,
+	sectorID integer constraint EmploymentSector_PK primary key,
 	name text,
 	contactFrequency integer,
 	constraint contactFrequencyRange check((contactFrequency >= 0 and contactFrequency <= 5) or contactFrequency == null)
@@ -105,14 +105,14 @@ create table EmploymentSector (
 drop table if exists Ethnicity;
 
 create table Ethnicity (
-	etniID integer constraint Ethnicity_PK primary key not null,
+	etniID integer constraint Ethnicity_PK primary key,
 	name text constraint Ethnicity_name_not_null not null
 );
 
 drop table if exists COVIDCase;
 
 create table COVIDCase (
-	caseID integer constraint COVIDCase_PK primary key not null,
+	caseID integer constraint COVIDCase_PK primary key,
 	detectionDate integer,
     endDate integer,
 	birthYear integer,
@@ -135,7 +135,7 @@ create table EthnicityCOVIDCase (
 drop table if exists Hospital;
 
 create table Hospital (
-	hospitalID integer constraint Hospital_PK primary key not null,
+	hospitalID integer constraint Hospital_PK primary key,
 	name text,
 	parishID constraint Hospital_FK references Parish(locID) on delete cascade on update cascade not null
 );
@@ -143,7 +143,7 @@ create table Hospital (
 drop table if exists Hospitalization;
 
 create table Hospitalization (
-	hospStayID integer constraint Hospitalization_PK primary key not null,
+	hospStayID integer constraint Hospitalization_PK primary key,
 	startDate integer,
 	endDate integer,
 	hospitalID integer constraint Hospitalization_Hospital_FK references Hospital(hospitalID) on delete restrict on update cascade not null,
@@ -154,7 +154,7 @@ create table Hospitalization (
 drop table if exists ICUStay;
 
 create table ICUStay (
-	ICUStayID integer constraint ICUStay_PK primary key not null,
+	ICUStayID integer constraint ICUStay_PK primary key,
 	startDate integer,
 	endDate integer,
 	hospStayID integer constraint ICUStay_FK references Hospitalization(hospStayID) on delete cascade on update cascade not null,
@@ -164,7 +164,7 @@ create table ICUStay (
 drop table if exists Ventilation;
 
 create table Ventilation (
-	ventID integer constraint Ventilation_PK primary key not null,
+	ventID integer constraint Ventilation_PK primary key,
 	startDate integer,
 	endDate integer,
 	ICUStayID integer constraint Ventilation_FK references ICUStay(ICUStayID) on delete cascade on update cascade not null,
