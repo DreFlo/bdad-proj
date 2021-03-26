@@ -195,7 +195,7 @@ end;
 
 drop trigger if exists update_COVIDCase;
 
-/* do not allow a NursingHome to be added to a COVIDCase with an already registered EmployementSector */
+/* do not allow a NursingHome to be added to a COVIDCase with an already registered EmploymentSector */
 create trigger update_COVIDCase
 before update on COVIDCase
 begin
