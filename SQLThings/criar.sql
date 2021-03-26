@@ -49,7 +49,7 @@ drop table if exists Vaccine;
 
 create table Vaccine (
 	vacID integer constraint Vaccine_PK primary key,
-	name integer constraint Vaccine_name_not_null not null,
+	name integer constraint Vaccine_name_unique unique not null,
 	doseNumber integer constraint Vaccine_doses_greater_than_one check(doseNumber >= 1) not null
 );
 
@@ -96,7 +96,7 @@ drop table if exists EmploymentSector;
 
 create table EmploymentSector (
 	sectorID integer constraint EmploymentSector_PK primary key,
-	name text,
+	name text constraint EmploymentSector_name_unique unique not null,
 	contactFrequency integer,
 	constraint contactFrequencyRange check((contactFrequency >= 0 and contactFrequency <= 5 and contactFrequency is not null and sectorID != 0) or (sectorID == 0 and contactFrequency is null))
 );
@@ -146,7 +146,7 @@ create table Hospitalization (
 	startDate date,
 	endDate date,
 	hospitalID integer constraint Hospitalization_Hospital_FK references Hospital(hospitalID) on delete restrict on update cascade not null,
-	caseID integer constraint Hospitalization_COVIDCase_FK references COVIDCase(caseID) on delete cascade on update cascade not null,
+	caseID integer constraint Hospitalization_COVIDCase_FK references COVIDCase(caseID) on delete cascade on update cascade unique not null,
 	constraint date_range check(startDate <= endDate)
 );
 
