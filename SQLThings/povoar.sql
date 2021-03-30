@@ -1,6 +1,6 @@
 /* Country(locID, name, caseNumber, noVaccinated, population) */
 insert into Country values
-    (0, 'Portugal', 0, 0, 0),
+    (0, 'Country Example', 0, 0, 0),
     (1, 'Reino Unido', 0, 0, 0),
     (2, 'África do Sul', 0, 0, 0),
     (3, 'Brasil', 0, 0, 0),
@@ -9,42 +9,42 @@ insert into Country values
 
 /* District(locID, name, caseNumber, noVaccinated, population, coutryID) */
 insert into District values
-    (0, 'Lisboa', 0, 0, 0, 0),
-    (1, 'Porto', 0, 0, 0, 0),
-    (2, 'Braga', 0, 0, 0, 0),
-    (3, 'Setúbal', 0, 0, 0, 0)
+    (0, 'District A', 0, 0, 0, 0),
+    (1, 'District B', 0, 0, 0, 0),
+    (2, 'District C', 0, 0, 0, 0),
+    (3, 'District D', 0, 0, 0, 0)
 ;
 
 /* County(locID, name, caseNumber, noVaccinated, population, districtID) */
 insert into County values
-    (0, 'Amadora', 0, 0, 0, 0),
-    (1, 'Cascais', 0, 0, 0, 0),
-    (2, 'Penafiel', 0, 0, 0, 1),
-    (3, 'Maia', 0, 0, 0, 1),
-    (4, 'Barcelos', 0, 0, 0, 2),
-    (5, 'Vila Verde', 0, 0, 0, 2),
-    (6, 'Grândola', 0, 0, 0, 3),
-    (7, 'Alcochete', 0, 0, 0, 3)
+    (0, 'County A', 0, 0, 0, 0),
+    (1, 'County B', 0, 0, 0, 0),
+    (2, 'County C', 0, 0, 0, 1),
+    (3, 'County D', 0, 0, 0, 1),
+    (4, 'County E', 0, 0, 0, 2),
+    (5, 'County F', 0, 0, 0, 2),
+    (6, 'County G', 0, 0, 0, 3),
+    (7, 'County H', 0, 0, 0, 3)
 ;
 
 /* Parish(locID, name, caseNumber, noVaccinated, population, countyID) */
 insert into Parish values
-    (0, 'Mina', 0, 0, 179, 0),
-    (1, 'Brandoa', 0, 0, 178, 0),
-    (2, 'Alcabideche', 0, 0, 421, 1),
-    (3, 'Estoril', 0, 0, 618, 1),
-    (4, 'Rio Mau', 0, 0, 14, 2),
-    (5, 'Canelas', 0, 0, 16, 2),
-    (6, 'Águas Santas', 0, 0, 274, 3),
-    (7, 'Milheirós', 0, 0, 48, 3),
-    (8, 'Lijó', 0, 0, 23, 4),
-    (9, 'Silva', 0, 0, 9, 4),
-    (10, 'Prado', 0, 0, 44, 5),
-    (11, 'Pico', 0, 0, 6, 5),
-    (12, 'Carvalhal', 0, 0, 16, 6),
-    (13, 'Melides', 0, 0, 16, 6),
-    (14, 'Samouco', 0, 0, 31, 7),
-    (15, 'São Francisco', 0, 0, 21, 7)
+    (0, 'Parish A', 0, 0, 179, 0),
+    (1, 'Parish B', 0, 0, 178, 0),
+    (2, 'Parish C', 0, 0, 421, 1),
+    (3, 'Parish D', 0, 0, 618, 1),
+    (4, 'Parish E', 0, 0, 14, 2),
+    (5, 'Parish F', 0, 0, 16, 2),
+    (6, 'Parish G', 0, 0, 274, 3),
+    (7, 'Parish H', 0, 0, 48, 3),
+    (8, 'Parish I', 0, 0, 23, 4),
+    (9, 'Parish J', 0, 0, 9, 4),
+    (10, 'Parish K', 0, 0, 44, 5),
+    (11, 'Parish M', 0, 0, 6, 5),
+    (12, 'Parish N', 0, 0, 16, 6),
+    (13, 'Parish O', 0, 0, 16, 6),
+    (14, 'Parish P', 0, 0, 31, 7),
+    (15, 'Parish Q', 0, 0, 21, 7)
 ;
 
 /* Vaccine(vacID, name, doseNumber) */
@@ -109,17 +109,17 @@ insert into VaccineManufacturer values
 /* Strain(strainID, designation, countryID) */
 insert into Strain values
     (0, 'SARS-CoV-2', 4),
-    (1, 'B.1.1.7', 1),
-    (2, 'B.1.351', 2),
-    (3, 'P.1', 3)
+    (1, 'SARS-CoV-2 B.1.1.7', 1),
+    (2, 'SARS-CoV-2 B.1.351', 2),
+    (3, 'SARS-CoV-2 P.1', 3)
 ;
 
 /* NursingHome(nursingHomeID, name) */
 insert into NursingHome values
-    (0, 'Casa de Repouso Almirante'),
-    (1, 'Lar Carlos da Maia'),
-    (2, 'Lar Terceira Idade Acácio Barradas'),
-    (3, 'Casa de Repouso Minhoto')
+    (0, 'Nursing Home A'),
+    (1, 'Nursing Home B'),
+    (2, 'Nursing Home C'),
+    (3, 'Nursing Home D')
 ;
 
 /* EmploymentSector(sectorID, name, contactFrequency) */
@@ -151,10 +151,10 @@ insert into EthnicityCOVIDCase values
 
 /* Hospital(hospitalID, name, ParishID) */
 insert into Hospital values
-    (0, 'Hospital de Braga', 10),
-    (1, 'Centro Hospitalar Universitário de Lisboa Central', 3),
-    (2, 'Hospital de São João', 6),
-    (3, 'Hospital São Bernardo', 14)
+    (0, 'Hospital A', 10),
+    (1, 'Hospital B', 3),
+    (2, 'Hospital C', 6),
+    (3, 'Hospital D', 14)
 ;
 
 /* Hospitalization(hospStayID, startDate, endDate, hospitalID, caseID) */
