@@ -124,11 +124,11 @@ insert into NursingHome values
 
 /* EmploymentSector(sectorID, name, contactFrequency) */
 insert into EmploymentSector values
-    (0, 'Sem Ocupação', null),
-    (1, 'Primário', 1),
-    (2, 'Secundário', 3),
-    (3, 'Terciário', 5),
-    (4, 'Quaternário', 0)
+    (0, 'No Ocupation', null),
+    (1, 'Primary', 1),
+    (2, 'Secondary', 3),
+    (3, 'Tertiary', 5),
+    (4, 'Quaternary', 0)
 ;
 
 /* Ethnicity(ethniID, name) */
