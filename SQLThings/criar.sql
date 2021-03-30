@@ -81,7 +81,7 @@ drop table if exists Strain;
 
 create table Strain (
 	strainID integer constraint Strain_PK primary key,
-	designation text constraint Strain_name_not_null not null,
+	designation text constraint Strain_name_not_null unique not null,
 	countryID integer constraint Strain_FK references Country(locID) on delete restrict on update cascade not null
 );
 
@@ -105,7 +105,7 @@ drop table if exists Ethnicity;
 
 create table Ethnicity (
 	ethniID integer constraint Ethnicity_PK primary key,
-	name text constraint Ethnicity_name_not_null not null
+	name text constraint Ethnicity_name_unique unique not null
 );
 
 drop table if exists COVIDCase;
@@ -167,7 +167,7 @@ create table Ventilation (
 	startDate date,
 	endDate date,
 	ICUStayID integer constraint Ventilation_FK references ICUStay(ICUStayID) on delete cascade on update cascade not null,
-	constraint date_range check(startDate >= endDate)
+	constraint date_range check(startDate <= endDate)
 );
 
 drop table if exists EmployedIn;
