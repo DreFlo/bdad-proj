@@ -1,50 +1,50 @@
 /* Country(locID, name, caseNumber, noVaccinated, population) */
 insert into Country values
-    (0, 'Country Example', 183, 0, 0),
-    (1, 'United Kingdom', 0, 0, 0),
-    (2, 'South Africa', 0, 0, 0),
-    (3, 'Brazil', 0, 0, 0),
-    (4, 'China', 0, 0, 0)
+    (0, 'Country Example', 183, 195, 1928),
+    (1, 'United Kingdom', null, null, null),
+    (2, 'South Africa', null, null, null),
+    (3, 'Brazil', null, null, null),
+    (4, 'China', null, null, null)
 ;
 
 /* District(locID, name, caseNumber, noVaccinated, population, coutryID) */
 insert into District values
-    (0, 'District A', 107, 0, 1396, 0),
-    (1, 'District B', 33, 0, 366, 0),
-    (2, 'District C', 6, 0, 82, 0),
-    (3, 'District D', 7, 0, 84, 0)
+    (0, 'District A', 107, 143, 1396, 0),
+    (1, 'District B', 33, 35, 366, 0),
+    (2, 'District C', 6, 8, 82, 0),
+    (3, 'District D', 7, 9, 84, 0)
 ;
 
 /* County(locID, name, caseNumber, noVaccinated, population, districtID) */
 insert into County values
-    (0, 'County A', 34, 0, 357, 0),
-    (1, 'County B', 73, 0, 1039, 0),
-    (2, 'County C', 2, 0, 30, 1),
-    (3, 'County D', 31, 0, 336, 1),
-    (4, 'County E', 2, 0, 32, 2),
-    (5, 'County F', 4, 0, 50, 2),
-    (6, 'County G', 2, 0, 32, 3),
-    (7, 'County H', 5, 0, 52, 3)
+    (0, 'County A', 34, 35, 357, 0),
+    (1, 'County B', 73, 108, 1039, 0),
+    (2, 'County C', 2, 3, 30, 1),
+    (3, 'County D', 31, 32, 336, 1),
+    (4, 'County E', 2, 4, 32, 2),
+    (5, 'County F', 4, 4, 50, 2),
+    (6, 'County G', 2, 4, 32, 3),
+    (7, 'County H', 5, 5, 52, 3)
 ;
 
 /* Parish(locID, name, caseNumber, noVaccinated, population, countyID) */
 insert into Parish values
-    (0, 'Parish A', 17, 0, 179, 0),
-    (1, 'Parish B', 17, 0, 178, 0),
-    (2, 'Parish C', 42, 0, 421, 1),
-    (3, 'Parish D', 61, 0, 618, 1),
-    (4, 'Parish E', 1, 0, 14, 2),
-    (5, 'Parish F', 1, 0, 16, 2),
-    (6, 'Parish G', 27, 0, 274, 3),
-    (7, 'Parish H', 4, 0, 48, 3),
-    (8, 'Parish I', 2, 0, 23, 4),
-    (9, 'Parish J', 0, 0, 9, 4),
-    (10, 'Parish K', 4, 0, 44, 5),
+    (0, 'Parish A', 17, 17, 179, 0),
+    (1, 'Parish B', 17, 18, 178, 0),
+    (2, 'Parish C', 42, 42, 421, 1),
+    (3, 'Parish D', 61, 66, 618, 1),
+    (4, 'Parish E', 1, 2, 14, 2),
+    (5, 'Parish F', 1, 1, 16, 2),
+    (6, 'Parish G', 27, 27, 274, 3),
+    (7, 'Parish H', 4, 5, 48, 3),
+    (8, 'Parish I', 2, 3, 23, 4),
+    (9, 'Parish J', 0, 1, 9, 4),
+    (10, 'Parish K', 4, 4, 44, 5),
     (11, 'Parish M', 0, 0, 6, 5),
-    (12, 'Parish N', 1, 0, 16, 6),
-    (13, 'Parish O', 1, 0, 16, 6),
-    (14, 'Parish P', 3, 0, 31, 7),
-    (15, 'Parish Q', 2, 0, 21, 7)
+    (12, 'Parish N', 1, 2, 16, 6),
+    (13, 'Parish O', 1, 2, 16, 6),
+    (14, 'Parish P', 3, 3, 31, 7),
+    (15, 'Parish Q', 2, 2, 21, 7)
 ;
 
 /* Vaccine(vacID, name, doseNumber) */
@@ -388,7 +388,7 @@ insert into Hospitalization values
 insert into ICUStay values
     (0, '2020-01-23', '2020-02-08', 0),
     (1, '2020-02-18', '2020-02-25', 1),
-    (2, '2020-09-10', '2020-02-12', 3),
+    (2, '2020-09-10', '2020-09-12', 3),
     (3, '2021-04-01', null, 4),
     (4, '2021-03-09', '2021-03-17', 5)
 ;
