@@ -66,7 +66,7 @@ drop table if exists Manufacturer;
 
 create table Manufacturer (
 	manID integer constraint Manufacturer_PK primary key,
-	name text constraint Manufacturer_name_not_null not null
+	name text constraint Manufacturer_name_not_null unique not null
 );
 
 drop table if exists VaccineManufacturer;
