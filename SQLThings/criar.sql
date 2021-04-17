@@ -301,3 +301,74 @@ begin
 	set population = population - old.population
 	where locID = old.countryID;
 end;
+
+drop trigger if exists UpdateParishCaseNumberAfterCaseInsert;
+
+/* after insert on COVIDCase update corresponding Parish's caseNumber */
+create trigger UpdateParishCaseNumberAfterCaseInsert
+after insert on COVIDCase
+begin
+	update Parish
+	set caseNumber = caseNumber + 1
+	where locID = new.parishID;
+end;
+
+drop trigger if exists UpdateParishCaseNumberAfterCaseUpdate;
+
+/* after update on COVIDCase update corresponding Parish's caseNumber */
+create trigger UpdateParishCaseNumberAfterCaseUpdate
+after update on COVIDCase
+begin
+	update Parish
+	set caseNumber = caseNumber + 1
+	where locID = new.parishID;
+
+	update Parish
+	set caseNumber = caseNumber - 1 
+	where locID = old.parishID;
+end;
+
+drop trigger if exists UpdateCountyAfterParishUpdate;
+
+/* after update on Parish update corresponding County's caseNumber */
+create trigger UpdateCountyAfterParishUpdate
+after update on Parish
+begin
+	update County
+	set caseNumber = caseNumber + new.caseNumber
+	where locID = new.countyID;
+
+	update County
+	set caseNumber = caseNumber - old.caseNumber
+	where locID = old.countyID;
+end;
+
+drop trigger if exists UpdateDistrictAfterCountyUpdate;
+
+/* after update on County update corresponding District's caseNumber */
+create trigger UpdateDistrictAfterCountyUpdate
+after update on County
+begin
+	update District
+	set caseNumber = caseNumber + new.caseNumber
+	where locID = new.districtID;
+
+	update District
+	set caseNumber = caseNumber - old.caseNumber
+	where locID = old.districtID;
+end;
+
+drop trigger if exists UpdateCountryAfterDistrictUpdate;
+
+/* after update on County update corresponding District's caseNumber */
+create trigger UpdateCountryAfterDistrictUpdate
+after update on District
+begin
+	update Country
+	set caseNumber = caseNumber + new.caseNumber
+	where locID = new.countryID;
+
+	update Country
+	set caseNumber = caseNumber - old.caseNumber
+	where locID = old.countryID;
+end;
