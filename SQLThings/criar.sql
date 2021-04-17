@@ -41,7 +41,7 @@ create table Parish (
 	name text constraint Parish_name_not_null not null,
 	caseNumber integer default 0,
 	noVaccinated integer default 0,
-	population integer,
+	population integer default 0,
 	countyID integer constraint Parish_FK references County(locID) on delete cascade on update cascade not null 
 );
 
@@ -257,6 +257,17 @@ begin
 	where locID = new.countyID;
 end;
 
+drop trigger if exists UpdateCountyPopulationAfterParishDeletion;
+
+/* after a delete on Parish update corresponding County population */
+create trigger UpdateCountyPopulationAfterParishDeletion
+after delete on Parish
+begin
+	update County
+	set population = population - old.population
+	where locID = old.countyID;
+end;
+
 drop trigger if exists UpdateCountyPopulationAfterParishUpdate;
 
 /* after an update on Parish update corresponding County population */
@@ -311,6 +322,17 @@ begin
 	update Parish
 	set caseNumber = caseNumber + 1
 	where locID = new.parishID;
+end;
+
+drop trigger if exists UpdateParishCaseNumberAfterCaseDeletion;
+
+/* after deletion on COVIDCase update corresponding Parish's caseNumber */
+create trigger UpdateParishCaseNumberAfterCaseDeletion
+after delete on COVIDCase
+begin
+	update Parish
+	set caseNumber = caseNumber - 1
+	where locID = old.parishID;
 end;
 
 drop trigger if exists UpdateParishCaseNumberAfterCaseUpdate;
