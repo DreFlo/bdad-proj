@@ -7,9 +7,9 @@ drop table if exists Country;
 create table Country (
 	locID integer constraint Country_PK primary key,
 	name text constraint Country_name_not_null not null,
-	caseNumber integer,
-	noVaccinated integer,
-	population integer
+	caseNumber integer default 0,
+	noVaccinated integer default 0,
+	population integer default 0
 );
 
 drop table if exists District;
@@ -17,9 +17,9 @@ drop table if exists District;
 create table District (
 	locID integer constraint District_PK primary key,
 	name text constraint District_name_not_null not null,
-	caseNumber integer,
-	noVaccinated integer,
-	population integer,
+	caseNumber integer default 0,
+	noVaccinated integer default 0,
+	population integer default 0,
 	countryID integer constraint District_FK references Country(locID) on delete cascade on update cascade not null
 );
 
@@ -28,9 +28,9 @@ drop table if exists County;
 create table County (
 	locID integer constraint Country_PK primary key,
 	name text constraint County_name_not_null not null,
-	caseNumber integer,
-	noVaccinated integer,
-	population integer,
+	caseNumber integer default 0,
+	noVaccinated integer default 0,
+	population integer default 0,
 	districtID integer constraint County_FK references District(locID) on delete cascade on update cascade not null 
 );
 
@@ -39,8 +39,8 @@ drop table if exists Parish;
 create table Parish (
 	locID integer constraint Parish_PK primary key,
 	name text constraint Parish_name_not_null not null,
-	caseNumber integer,
-	noVaccinated integer,
+	caseNumber integer default 0,
+	noVaccinated integer default 0,
 	population integer,
 	countyID integer constraint Parish_FK references County(locID) on delete cascade on update cascade not null 
 );
@@ -178,10 +178,14 @@ create table EmployedIn (
 	constraint EmployedIn_PK primary key(caseID, sectorID)
 );
 
-drop trigger if exists insert_employed_in;
+/*
+TRIGGERS-------------------------------------------------------------------------------------------------
+*/
+
+drop trigger if exists CheckAlreadyInNursingHome;
 
 /* do not allow a COVIDCase already registered in a NursingHome to be added to EmployedIn */
-create trigger insert_employed_in
+create trigger CheckAlreadyInNursingHome
 before insert on EmployedIn
 begin
 	select 
@@ -190,13 +194,13 @@ begin
 			then raise(abort, 'Cannot be employed and in nursing home')
 		end
 	from COVIDCase
-    where caseID == new.caseID;
+    where caseID = new.caseID;
 end;
 
-drop trigger if exists update_COVIDCase;
+drop trigger if exists CheckAlreadyEmployed;
 
 /* do not allow a NursingHome to be added to a COVIDCase with an already registered EmploymentSector */
-create trigger update_COVIDCase
+create trigger CheckAlreadyEmployed 
 before update on COVIDCase
 begin
 	select
@@ -205,13 +209,13 @@ begin
 			then raise(abort, 'Cannot be employed and in nursing home')
 		end
 	from EmployedIn
-	where caseID == new.caseID;
+	where caseID = new.caseID;
 end;
 
-drop trigger if exists insert_ICUStay;
+drop trigger if exists CheckICUStayDates;
 
 /* do not allow an ICUStay to start before or end after its corresponding Hospitalization */
-create trigger insert_ICUStay
+create trigger CheckICUStayDates 
 before insert on ICUStay
 begin
 	select
@@ -222,13 +226,13 @@ begin
 			then raise(abort, 'ICUStay cannot end after Hospitalization')
 		end
 	from Hospitalization
-	where hospStayID == new.hospStayID;
+	where hospStayID = new.hospStayID;
 end;
 
-drop trigger if exists insert_Ventilation;
+drop trigger if exists CheckVentilationDates;
 
 /* do not allow a Ventilation to start before or end after its corresponding ICUStay */
-create trigger insert_Ventilation
+create trigger CheckVentilationDates 
 before insert on Ventilation
 begin
 	select
@@ -239,5 +243,61 @@ begin
 			then raise(abort, 'Ventilation cannot end after ICUStay')
 		end 
 	from ICUStay
-	where ICUStayID == new.ICUStayID;	
+	where ICUStayID = new.ICUStayID;	
+end;
+
+drop trigger if exists UpdateCountyPopulationAfterParishInsert;
+
+/* after an insert on Parish update corresponding County population */
+create trigger UpdateCountyPopulationAfterParishInsert
+after insert on Parish
+begin
+	update County
+	set population = population + new.population
+	where locID = new.countyID;
+end;
+
+drop trigger if exists UpdateCountyPopulationAfterParishUpdate;
+
+/* after an update on Parish update corresponding County population */
+create trigger UpdateCountyPopulationAfterParishUpdate
+after update on Parish
+begin
+	update County
+	set population = population + new.population
+	where locID = new.countyID;
+
+	update County
+	set population = population - old.population
+	where locID = old.countyID;
+end;
+
+drop trigger if exists UpdateDistrictPopulationAfterCountyUpdate;
+
+/* after an update on County update corresponding District population */
+create trigger UpdateDistrictPopulationAfterCountyUpdate
+after update on County
+begin
+	update District
+	set population = population + new.population
+	where locID = new.districtID;
+
+	update District
+	set population = population - old.population
+	where locID = old.districtID;
+end;
+
+drop trigger if exists UpdateCountryPopulationAfterDistrictUpdate;
+
+/* after an update on District update corresponding Country population */
+create trigger UpdateCountryPopulationAfterDistrictUpdate
+after update on District
+begin
+	update Country
+	set population = population + new.population
+	where locID = new.countryID;
+
+	update Country
+	set population = population - old.population
+	where locID = old.countryID;
 end;
