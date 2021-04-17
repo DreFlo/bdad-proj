@@ -1,5 +1,3 @@
-/* derived atrributes not being calculated */
-
 pragma foreign_keys = ON;
 
 drop table if exists Country;
@@ -257,10 +255,10 @@ begin
 	where locID = new.countyID;
 end;
 
-drop trigger if exists UpdateCountyPopulationAfterParishDeletion;
+drop trigger if exists UpdateCountyPopulationAfterParishDelete;
 
 /* after a delete on Parish update corresponding County population */
-create trigger UpdateCountyPopulationAfterParishDeletion
+create trigger UpdateCountyPopulationAfterParishDelete
 after delete on Parish
 begin
 	update County
@@ -268,49 +266,38 @@ begin
 	where locID = old.countyID;
 end;
 
-drop trigger if exists UpdateCountyPopulationAfterParishUpdate;
+drop trigger if exists UpdateParishNoVaccinatedAfterVaccinationAmmountInsert;
 
-/* after an update on Parish update corresponding County population */
-create trigger UpdateCountyPopulationAfterParishUpdate
-after update on Parish
+create trigger UpdateParishNoVaccinatedAfterVaccinationAmmountInsert
+after insert on VaccinationAmount
 begin
-	update County
-	set population = population + new.population
-	where locID = new.countyID;
-
-	update County
-	set population = population - old.population
-	where locID = old.countyID;
+	update Parish
+	set noVaccinated = noVaccinated + new.vaccinationNumber
+	where locID = new.parishID;
 end;
 
-drop trigger if exists UpdateDistrictPopulationAfterCountyUpdate;
+drop trigger if exists UpdateParishNoVaccinatedAfterVaccinationAmmountDelete;
 
-/* after an update on County update corresponding District population */
-create trigger UpdateDistrictPopulationAfterCountyUpdate
-after update on County
+create trigger UpdateParishNoVaccinatedAfterVaccinationAmmountDelete
+after delete on VaccinationAmount
 begin
-	update District
-	set population = population + new.population
-	where locID = new.districtID;
-
-	update District
-	set population = population - old.population
-	where locID = old.districtID;
+	update Parish
+	set noVaccinated = noVaccinated - old.vaccinationNumber
+	where locID = old.parishID;
 end;
 
-drop trigger if exists UpdateCountryPopulationAfterDistrictUpdate;
+drop trigger if exists UpdateParishNoVaccinatedAfterVaccinationAmmountUpdate;
 
-/* after an update on District update corresponding Country population */
-create trigger UpdateCountryPopulationAfterDistrictUpdate
-after update on District
+create trigger UpdateParishNoVaccinatedAfterVaccinationAmmountUpdate
+after update on VaccinationAmount
 begin
-	update Country
-	set population = population + new.population
-	where locID = new.countryID;
+	update Parish
+	set noVaccinated = noVaccinated + new.vaccinationNumber
+	where locID = new.parishID;
 
-	update Country
-	set population = population - old.population
-	where locID = old.countryID;
+	update Parish
+	set noVaccinated = noVaccinated - old.vaccinationNumber
+	where locID = old.parishID;
 end;
 
 drop trigger if exists UpdateParishCaseNumberAfterCaseInsert;
@@ -324,10 +311,10 @@ begin
 	where locID = new.parishID;
 end;
 
-drop trigger if exists UpdateParishCaseNumberAfterCaseDeletion;
+drop trigger if exists UpdateParishCaseNumberAfterCaseDelete;
 
 /* after deletion on COVIDCase update corresponding Parish's caseNumber */
-create trigger UpdateParishCaseNumberAfterCaseDeletion
+create trigger UpdateParishCaseNumberAfterCaseDelete
 after delete on COVIDCase
 begin
 	update Parish
@@ -357,11 +344,11 @@ create trigger UpdateCountyAfterParishUpdate
 after update on Parish
 begin
 	update County
-	set caseNumber = caseNumber + new.caseNumber
+	set caseNumber = caseNumber + new.caseNumber, noVaccinated = noVaccinated + new.noVaccinated, population = population + new.population
 	where locID = new.countyID;
 
 	update County
-	set caseNumber = caseNumber - old.caseNumber
+	set caseNumber = caseNumber - old.caseNumber, noVaccinated = noVaccinated - old.noVaccinated, population = population - old.population
 	where locID = old.countyID;
 end;
 
@@ -372,11 +359,11 @@ create trigger UpdateDistrictAfterCountyUpdate
 after update on County
 begin
 	update District
-	set caseNumber = caseNumber + new.caseNumber
+	set caseNumber = caseNumber + new.caseNumber, noVaccinated = noVaccinated + new.noVaccinated, population = population + new.population
 	where locID = new.districtID;
 
 	update District
-	set caseNumber = caseNumber - old.caseNumber
+	set caseNumber = caseNumber - old.caseNumber, noVaccinated = noVaccinated - old.noVaccinated, population = population - old.population
 	where locID = old.districtID;
 end;
 
@@ -387,10 +374,10 @@ create trigger UpdateCountryAfterDistrictUpdate
 after update on District
 begin
 	update Country
-	set caseNumber = caseNumber + new.caseNumber
+	set caseNumber = caseNumber + new.caseNumber, noVaccinated = noVaccinated + new.noVaccinated, population = population + new.population
 	where locID = new.countryID;
 
 	update Country
-	set caseNumber = caseNumber - old.caseNumber
+	set caseNumber = caseNumber - old.caseNumber, noVaccinated = noVaccinated - old.noVaccinated, population = population - old.population
 	where locID = old.countryID;
 end;
