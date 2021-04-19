@@ -1,6 +1,6 @@
 /* Country(locID, name, caseNumber, noVaccinated, population) */
 insert into Country values
-    (0, 'Country Example', 183, 195, 1928),
+    (0, 'Country Example', 0, 0, 0),
     (1, 'United Kingdom', null, null, null),
     (2, 'South Africa', null, null, null),
     (3, 'Brazil', null, null, null),
@@ -471,7 +471,6 @@ insert into EmployedIn values
     (163, 3),
     (170, 4),
     (169, 1),
-    (64, 3),
     (73, 0),
     (52, 3),
     (155, 0),
