@@ -1,18 +1,17 @@
 
-/* Gatilho 1:
-    -> do not allow a COVIDCase already registered in a NursingHome to be added to EmployedIn
+/* 
+Gatilho 1
+	->after a delete on Parish update corresponding County population 
 */
 
-drop trigger if exists CheckAlreadyInNursingHome;
+drop trigger if exists UpdateCountyPopulationAfterParishDelete;
 
-create trigger CheckAlreadyInNursingHome
-before insert on EmployedIn
+
+create trigger UpdateCountyPopulationAfterParishDelete
+after delete on Parish
 begin
-	select 
-		case 
-		when nursingHomeID is not null
-			then raise(abort, 'Cannot be employed and in nursing home')
-		end
-	from COVIDCase
-    where caseID = new.caseID;
+	update County
+	set population = population - old.population
+	where locID = old.countyID;
 end;
+

@@ -1,7 +1,7 @@
 
-/* Gatilho 1:
-    -> do not allow a COVIDCase already registered in a NursingHome to be added to EmployedIn
+/* 
+Gatilho 1
+	->after a delete on Parish update corresponding County population 
 */
 
-
-drop trigger if exists CheckAlreadyInNursingHome;
+drop trigger if exists UpdateCountyPopulationAfterParishDelete;

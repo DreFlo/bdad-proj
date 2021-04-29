@@ -1,9 +1,13 @@
-/* Gatilho 3:
-    ->do not allow a NursingHome to be added to a COVIDCase with an already registered EmploymentSector 
+
+/* 
+Gatilho 3
+	->after an insert on Parish update corresponding County population 
 */
 
-insert into COVIDCase(caseID, parishID, strainID) values(184, 0, 0);
-select * from COVIDCase;
-insert into EmployedIn values (184, 1);
-update COVIDCase set nursingHomeID = 0 where caseID = 184;
-select * from COVIDCase;
+
+select population from County where locID = 1;
+
+insert into Parish values(100, "Parish 100", 0, 0, 10, 1);
+
+select population from County where locID = 1;
+

@@ -1,9 +1,14 @@
 
-/* Gatilho 1:
-    -> do not allow a COVIDCase already registered in a NursingHome to be added to EmployedIn
+/* 
+Gatilho 1
+	->after a delete on Parish update corresponding County population 
 */
 
-insert into COVIDCase(caseID, parishID, strainID, nursingHomeID) values(183, 0, 0, 0); 
-select * from EmployedIn;
-insert into EmployedIn values(183, 1);
-select * from EmployedIn;
+Insert Into Parish Values(101, "Parish 101", 0, 0, 10, 4);
+Update County Set population = population + 10 where locID = 4;
+
+Select population From County Where locID = 4;
+
+Delete From Parish Where locID = 101;
+
+Select population From County Where locID = 4;

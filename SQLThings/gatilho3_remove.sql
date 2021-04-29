@@ -1,6 +1,8 @@
 
-/* Gatilho 3:
-    ->do not allow a NursingHome to be added to a COVIDCase with an already registered EmploymentSector 
+/* 
+Gatilho 3
+	->after an insert on Parish update corresponding County population 
 */
 
-drop trigger if exists CheckAlreadyEmployed;
+
+drop trigger if exists UpdateCountyPopulationAfterParishInsert;

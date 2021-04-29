@@ -1,6 +1,7 @@
 
 
-/* Gatilho 2:
+/* 
+Gatilho 2:
     ->do not allow to be unemployed and employed in another sector 
 */
 
