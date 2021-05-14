@@ -323,7 +323,8 @@ insert into COVIDCase values
     (179, '2021-03-01', null, 1986, 2, 6, 0, null),
     (180, '2021-03-04', '2021-03-16', 1997, 2, 2, 0, null),
     (181, '2021-03-09', '2021-03-19', 2002, 2, 8, 3, null),
-    (182, '2021-03-30', null, 2003, null, 0, 0, null)
+    (182, '2021-03-30', null, 2003, null, 0, 0, null),
+    (183, '2021-03-31', null, 2001, null, 8, 0, null)
 ;
 
 /* EthnicityCOVIDCase(caseID, ethniID) */
