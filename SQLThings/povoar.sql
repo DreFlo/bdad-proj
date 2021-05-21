@@ -29,22 +29,22 @@ insert into County values
 
 /* Parish(locID, name, caseNumber, noVaccinated, population, countyID) */
 insert into Parish values
-    (0, 'Parish A', 17, 17, 179, 0),
-    (1, 'Parish B', 17, 18, 178, 0),
-    (2, 'Parish C', 42, 42, 421, 1),
-    (3, 'Parish D', 61, 66, 618, 1),
-    (4, 'Parish E', 1, 2, 14, 2),
-    (5, 'Parish F', 1, 1, 16, 2),
-    (6, 'Parish G', 27, 27, 274, 3),
-    (7, 'Parish H', 4, 5, 48, 3),
-    (8, 'Parish I', 2, 3, 23, 4),
-    (9, 'Parish J', 0, 1, 9, 4),
-    (10, 'Parish K', 4, 4, 44, 5),
+    (0, 'Parish A', 0, 0, 179, 0),
+    (1, 'Parish B', 0, 0, 178, 0),
+    (2, 'Parish C', 0, 0, 421, 1),
+    (3, 'Parish D', 0, 0, 618, 1),
+    (4, 'Parish E', 0, 0, 14, 2),
+    (5, 'Parish F', 0, 0, 16, 2),
+    (6, 'Parish G', 0, 0, 274, 3),
+    (7, 'Parish H', 0, 0, 48, 3),
+    (8, 'Parish I', 0, 0, 23, 4),
+    (9, 'Parish J', 0, 0, 9, 4),
+    (10, 'Parish K', 0, 0, 44, 5),
     (11, 'Parish M', 0, 0, 6, 5),
-    (12, 'Parish N', 1, 2, 16, 6),
-    (13, 'Parish O', 1, 2, 16, 6),
-    (14, 'Parish P', 3, 3, 31, 7),
-    (15, 'Parish Q', 2, 2, 21, 7)
+    (12, 'Parish N', 0, 0, 16, 6),
+    (13, 'Parish O', 0, 0, 16, 6),
+    (14, 'Parish P', 0, 0, 31, 7),
+    (15, 'Parish Q', 0, 0, 21, 7)
 ;
 
 /* Vaccine(vacID, name, doseNumber) */
