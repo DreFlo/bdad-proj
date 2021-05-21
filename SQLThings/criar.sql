@@ -180,9 +180,16 @@ create table EmployedIn (
 TRIGGERS-------------------------------------------------------------------------------------------------
 */
 
+drop trigger if exists UpdateCountyPopulationAfterParishInsert;
 
 
-
+create trigger UpdateCountyPopulationAfterParishInsert
+after insert on Parish
+begin
+	update County
+	set population = population + new.population
+	where locID = new.countyID;
+end;
 
 drop trigger if exists CheckICUStayDates;
 
@@ -301,21 +308,6 @@ after delete on COVIDCase
 begin
 	update Parish
 	set caseNumber = caseNumber - 1
-	where locID = old.parishID;
-end;
-
-drop trigger if exists UpdateParishCaseNumberAfterCaseUpdate;
-
-/* after update on COVIDCase update corresponding Parish's caseNumber */
-create trigger UpdateParishCaseNumberAfterCaseUpdate
-after update on COVIDCase
-begin
-	update Parish
-	set caseNumber = caseNumber + 1
-	where locID = new.parishID;
-
-	update Parish
-	set caseNumber = caseNumber - 1 
 	where locID = old.parishID;
 end;
 

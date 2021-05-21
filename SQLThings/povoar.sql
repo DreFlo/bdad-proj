@@ -9,22 +9,22 @@ insert into Country values
 
 /* District(locID, name, caseNumber, noVaccinated, population, coutryID) */
 insert into District values
-    (0, 'District A', 107, 143, 1396, 0),
-    (1, 'District B', 33, 35, 366, 0),
-    (2, 'District C', 6, 8, 82, 0),
-    (3, 'District D', 7, 9, 84, 0)
+    (0, 'District A', 0, 0, 0, 0),
+    (1, 'District B', 0, 0, 0, 0),
+    (2, 'District C', 0, 0, 0, 0),
+    (3, 'District D', 0, 0, 0, 0)
 ;
 
 /* County(locID, name, caseNumber, noVaccinated, population, districtID) */
 insert into County values
-    (0, 'County A', 34, 35, 357, 0),
-    (1, 'County B', 73, 108, 1039, 0),
-    (2, 'County C', 2, 3, 30, 1),
-    (3, 'County D', 31, 32, 336, 1),
-    (4, 'County E', 2, 4, 32, 2),
-    (5, 'County F', 4, 4, 50, 2),
-    (6, 'County G', 2, 4, 32, 3),
-    (7, 'County H', 5, 5, 52, 3)
+    (0, 'County A', 0, 0, 0, 0),
+    (1, 'County B', 0, 0, 0, 0),
+    (2, 'County C', 0, 0, 0, 1),
+    (3, 'County D', 0, 0, 0, 1),
+    (4, 'County E', 0, 0, 0, 2),
+    (5, 'County F', 0, 0, 0, 2),
+    (6, 'County G', 0, 0, 0, 3),
+    (7, 'County H', 0, 0, 0, 3)
 ;
 
 /* Parish(locID, name, caseNumber, noVaccinated, population, countyID) */

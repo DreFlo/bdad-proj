@@ -3,11 +3,13 @@
 Gatilho 3
 	->after an insert on Parish update corresponding County population 
 */
+.mode	columns
+.headers	on
+.nullvalue	NULL
 
+select locID, caseNumber from Parish where locID = 1 or locID = 2;
 
-select population from County where locID = 1;
+update COVIDCase set parishID = 2 where caseID = 1;
 
-insert into Parish values(100, "Parish 100", 0, 0, 10, 1);
-
-select population from County where locID = 1;
+select locID, caseNumber from Parish where locID = 1 or locID = 2;
 

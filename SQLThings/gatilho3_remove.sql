@@ -5,4 +5,4 @@ Gatilho 3
 */
 
 
-drop trigger if exists UpdateCountyPopulationAfterParishInsert;
+drop trigger if exists UpdateParishCaseNumberAfterCaseUpdate;
