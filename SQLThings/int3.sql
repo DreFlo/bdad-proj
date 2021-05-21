@@ -1,6 +1,6 @@
 
 /*
-Interrugação 3
+Interrogação 3
     -> Datas de inicio de deteçao e fim do caso dos casos hospitalizados
 */
 

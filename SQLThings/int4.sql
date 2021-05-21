@@ -1,6 +1,6 @@
 
 /*
-Interrugação 4
+Interrogação 4
     -> Caso de covid de uma certa freguesia ordenado por tempo infetado
 */  
 

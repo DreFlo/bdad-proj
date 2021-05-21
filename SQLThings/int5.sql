@@ -1,31 +1,14 @@
 
 /*
-Interrugação 5:
-    -> A freguesia de cada lar
+Interrogação 5:
+    -> Numero de novas hospitalizações num mês
 */
 
 .mode	columns
 .headers	on
 .nullvalue	NULL
 
-select
-    nNAME,
-    name
-from
-    (   
-        (
-        select 
-            COVIDCase.nursingHomeID as nID,
-            NursingHome.name as nNAME,
-            COVIDCase.parishID as pID
-        from 
-            NursingHome
-        Inner Join COVIDCase 
-            on COVIDCase.nursingHomeID = NursingHome.nursingHomeID
-        )
-    Inner Join Parish
-        on Parish.locID = pID
-    )
-group by
-    nID;
-
+SELECT strftime('%m', startDate) as Month, strftime('%Y', startDate) as Year, count(*) as "Number of New Hospitalizations"
+FROM Hospitalization
+GROUP BY strftime('%m', startDate)
+ORDER BY strftime('%Y', startDate), strftime('%m', startDate) ASC;
