@@ -12,5 +12,5 @@ FROM( SELECT detectionDate, caseID, EmploymentSector.name as Employment
 
       SELECT detectionDate, caseID, "Nursing Home" as Employment
       FROM NursingHome NATURAL JOIN COVIDCase)
-WHERE strftime('%Y', detectionDate) == '2020' AND strftime('%m', detectionDate) == '04'
+WHERE strftime('%Y', detectionDate) = '2020' AND strftime('%m', detectionDate) = '04'
 ORDER BY Employment;
