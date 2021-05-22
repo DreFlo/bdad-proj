@@ -1,19 +1,44 @@
 
 /*
-Interrogação 3
-    -> Datas de inicio de deteçao e fim do caso dos casos hospitalizados
+Interrogação 3:
+    -> Hospitais que apenas tem casos da sua propria freguesia
 */
 
 .mode	columns
 .headers	on
 .nullvalue	NULL
 
-select 
-    COVIDCase.caseID,
-    COVIDCase.detectionDate, 
-    COVIDCase.endDate
-from 
-    COVIDCase
-Inner Join Hospitalization
-    on Hospitalization.caseID = COVIDCase.caseID;
+CREATE VIEW HospitalToCaseEqual AS
+SELECT Hospital.name
+FROM 
+    Hospital
+JOIN 
+    Hospitalization, COVIDCase 
+ON 
+    Hospital.hospitalID = Hospitalization.hospitalID AND COVIDCase.caseID = Hospitalization.caseID AND Hospital.parishID = COVIDCase.parishID
+GROUP BY Hospital.hospitalID;
+
+CREATE VIEW HospitalToCaseDifferent AS
+SELECT Hospital.name
+FROM 
+    Hospital 
+JOIN 
+    Hospitalization, COVIDCase 
+ON 
+    Hospital.hospitalID = Hospitalization.hospitalID AND COVIDCase.caseID = Hospitalization.caseID AND Hospital.parishID <> COVIDCase.parishID
+GROUP BY Hospital.hospitalID;
+
+SELECT name AS "Hospital"
+FROM 
+    (SELECT * 
+    FROM HospitalToCaseEqual
+
+    EXCEPT
+
+    SELECT * 
+    FROM HospitalToCaseDifferent
+    );
+
+DROP VIEW HospitalToCaseEqual;
+DROP VIEW HospitalToCaseDifferent;
 

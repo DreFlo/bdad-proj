@@ -372,7 +372,8 @@ insert into Hospital values
     (0, 'Hospital A', 10),
     (1, 'Hospital B', 3),
     (2, 'Hospital C', 6),
-    (3, 'Hospital D', 14)
+    (3, 'Hospital D', 14),
+    (4, 'Hospital E', 1)
 ;
 
 /* Hospitalization(hospStayID, startDate, endDate, hospitalID, caseID) */
@@ -384,7 +385,9 @@ insert into Hospitalization values
     (4, '2021-03-30', null, 0, 182),
     (5, '2021-03-02', null, 2, 179),
     (6, '2020-01-23', '2020-04-08', 1, 50),
-    (7, '2020-02-10', '2020-03-08', 3, 88)
+    (7, '2020-02-10', '2020-03-08', 3, 88),
+    (8, '2020-05-06', '2020-05-27', 4, 17),
+    (9, '2020-09-24', '2020-10-07', 4, 1)
 ;
 
 /* ICUStay(ICUStayID, startDate, endDate, hospStayID) */
