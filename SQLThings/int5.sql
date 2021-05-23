@@ -1,7 +1,7 @@
 
 /*
 Interrogação 5:
-    -> Numero de novas hospitalizações num mês
+    -> Numero de novas hospitalizações por mês
 */
 
 .mode	columns
